@@ -2,8 +2,11 @@ import express, { Request, Response, NextFunction } from 'express'
 
 import logger from './logger'
 
+import routing from './routing'
+
 const app = express()
 
+app.use(routing)
 
 app.use((req, res, next) => {
 	next(new Error('NotFound'))

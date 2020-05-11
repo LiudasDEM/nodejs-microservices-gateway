@@ -16,6 +16,7 @@ interface ILogPayload {
 const transports = []
 transports.push(new winston.transports.Console())
 
+// @ts-ignore
 const logger = new (winston.Logger)({
 	level: 'debug',
 	transports,
@@ -51,6 +52,7 @@ export function log(level: string, message: string, { error, req, data, status, 
 }
 
 if (config.logger.logstashHost) {
+	// @ts-ignore
 	const logstash = new winston.transports.Logstash({
 		port: 28777,
 		node_name: config.logger.index + '-logs', // eslint-disable-line @typescript-eslint/camelcase
@@ -73,20 +75,20 @@ if (!process.listeners('uncaughtException').length) {
 }
 
 
-export function ERROR(message: string, { error, req, data, status }: ILogPayload): void {
-	log('error', message, { error, req, data, status })
+export function ERROR(message: string, options?: ILogPayload): void {
+	log('error', message, options || {})
 }
 
-export function warn(message: string, { error, req, data, status }: ILogPayload): void {
-	log('warn', message, { error, req, data, status })
+export function warn(message: string, options?: ILogPayload): void {
+	log('warn', message, options || {})
 }
 
-export function INFO(message: string, { error, req, data, status }: ILogPayload): void {
-	log('info', message, { error, req, data, status })
+export function INFO(message: string, options?: ILogPayload): void {
+	log('info', message, options || {})
 }
 
-export function debug(message: string, { error, req, data, status }: ILogPayload): void {
-	log('debug', message, { error, req, data, status })
+export function debug(message: string, options?: ILogPayload): void {
+	log('debug', message, options || {})
 }
 
 
