@@ -11,14 +11,17 @@ let configuration: any = null
 
 
 async function loadAndParseConfiguration(): Promise<any> {
-	const fileExists = await promisify(fs.exists)(path.join(process.cwd(), '..', 'routing.conf.yaml'))
+	const confPath = path.join(process.cwd(), '..', 'routing.conf.yaml')
+	logger.info(`loading configuration from ${confPath}`)
+
+	const fileExists = await promisify(fs.exists)(confPath)
 
 	if (!fileExists) {
 		logger.error('configuration file not found, set up routing.conf.yaml file')
 		process.exit(1)
 	}
 
-	const file = await promisify(fs.readFile)(path.join(process.cwd(), '..', 'routing.conf.yaml'))
+	const file = await promisify(fs.readFile)(confPath)
 
 	try {
 		return yamljs.parse(file.toString())

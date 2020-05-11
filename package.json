@@ -7,8 +7,10 @@
     "lint": "eslint .",
     "test": "ts-mocha -p tsconfig.json --timeout 10000 tests/**/*test.ts --reporter dot --exit",
     "test:dev": "ts-mocha -p tsconfig.json ./tests/*/**test.ts --timeout 10000 -w --watch-extensions ts --reporter dot",
-    "start": "cd dist && nodemon bundle.js --watch bundle.js",
-    "build:dev": "webpack --watch"
+    "start:dev": "cd dist && nodemon bundle.js --watch bundle.js",
+		"build:dev": "webpack --watch",
+		"build": "webpack",
+		"build:docker:image": "docker build -t nodejs-microservices-gateway ."
   },
   "repository": {
     "type": "git",

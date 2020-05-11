@@ -6,7 +6,12 @@ import routing from './routing'
 
 const app = express()
 
+
 app.use(routing)
+
+app.get('/api/health', function (req, res) {
+	res.json(require('os').hostname())
+})
 
 app.use((req, res, next) => {
 	next(new Error('NotFound'))
