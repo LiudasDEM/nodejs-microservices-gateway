@@ -1,1 +1,22 @@
 paths:
+  - url: "/api/v1"
+    origin: "http://localhost:8081"
+  - url: "/api/users"
+    origin: "http://localhost:8081"
+    options:
+      headers:
+        x-forwarded-for: false
+  - url: "/api/health"
+    origin: "http://localhost:8081"
+    options:
+      headers:
+        x-forwarded-for: false
+  - url: "/api/auth"
+    origin: "http://localhost:8082"
+    options:
+      headers:
+        etags: false
+options:
+  headers:
+    etags: true
+    x-forwarded-for: true

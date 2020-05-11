@@ -7,10 +7,27 @@ import yamljs from 'yamljs'
 import logger from './logger'
 
 
-let configuration: any = null
+interface IOptions {
+	headers: { key: boolean };
+}
+
+interface IPath {
+	url: string;
+	origin: string;
+	options: IOptions;
+}
 
 
-async function loadAndParseConfiguration(): Promise<any> {
+export interface IConfiguration {
+	paths: IPath[];
+	options: IOptions;
+}
+
+
+let configuration: Promise<IConfiguration> = null
+
+
+async function loadAndParseConfiguration(): Promise<IConfiguration> {
 	const confPath = path.join(process.cwd(), '..', 'routing.conf.yaml')
 	logger.info(`loading configuration from ${confPath}`)
 
@@ -31,7 +48,7 @@ async function loadAndParseConfiguration(): Promise<any> {
 }
 
 
-async function getConfiguration(): Promise<any> {
+async function getConfiguration(): Promise<IConfiguration> {
 	if (configuration) {
 		return configuration
 	}

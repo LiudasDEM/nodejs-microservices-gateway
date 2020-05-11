@@ -8,9 +8,9 @@
     "test": "ts-mocha -p tsconfig.json --timeout 10000 tests/**/*test.ts --reporter dot --exit",
     "test:dev": "ts-mocha -p tsconfig.json ./tests/*/**test.ts --timeout 10000 -w --watch-extensions ts --reporter dot",
     "start:dev": "cd dist && nodemon bundle.js --watch bundle.js",
-		"build:dev": "webpack --watch",
-		"build": "webpack",
-		"build:docker:image": "docker build -t nodejs-microservices-gateway ."
+    "build:dev": "webpack --watch",
+    "build": "webpack",
+    "build:docker:image": "docker build -t nodejs-microservices-gateway ."
   },
   "repository": {
     "type": "git",
@@ -44,6 +44,7 @@
     "@types/mocha": "^7.0.2",
     "@types/mongoose": "^5.7.14",
     "@types/node": "^13.13.4",
+    "@types/request": "^2.48.4",
     "@types/yamljs": "^0.2.30",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
