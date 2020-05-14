@@ -5,18 +5,23 @@ paths:
     origin: "http://localhost:8081"
     options:
       headers:
-        x-forwarded-for: false
+        - title: x-forwarded-for
+          remove: true
   - url: "/api/health"
     origin: "http://localhost:8081"
     options:
       headers:
-        x-forwarded-for: false
+        - title: x-forwarded-for
+          remove: true
   - url: "/api/auth"
     origin: "http://localhost:8082"
     options:
       headers:
-        etags: false
+        - title: etags
+          remove: true
 options:
   headers:
-    etags: true
-    x-forwarded-for: true
+    - title: etags
+      remove: false
+    - title: x-forwarded-for
+      remove: false

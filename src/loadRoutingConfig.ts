@@ -7,11 +7,14 @@ import yamljs from 'yamljs'
 import logger from './logger'
 
 
-interface IOptions {
-	headers: { key: boolean };
+export interface IOptions {
+	headers: {
+		title: string;
+		remove: boolean;
+	}[];
 }
 
-interface IPath {
+export interface IPath {
 	url: string;
 	origin: string;
 	options: IOptions;
@@ -27,8 +30,17 @@ export interface IConfiguration {
 let configuration: Promise<IConfiguration> = null
 
 
+function applyDefaultConfigurationsForPaths(path: IPath): IPath {
+	return {
+		options: path.options ? path.options : { headers: [] },
+		origin: path.origin,
+		url: path.url,
+	}
+}
+
+
 async function loadAndParseConfiguration(): Promise<IConfiguration> {
-	const confPath = path.join(process.cwd(), '..', 'routing.conf.yaml')
+	const confPath = path.join(process.cwd(), process.cwd().includes('dist') && '..', 'routing.conf.yaml')
 	logger.info(`loading configuration from ${confPath}`)
 
 	const fileExists = await promisify(fs.exists)(confPath)
@@ -41,7 +53,10 @@ async function loadAndParseConfiguration(): Promise<IConfiguration> {
 	const file = await promisify(fs.readFile)(confPath)
 
 	try {
-		return yamljs.parse(file.toString())
+		const config = yamljs.parse(file.toString())
+		return config.paths
+			.filter(({ url, origin }: IPath) => url && origin)
+			.map(applyDefaultConfigurationsForPaths)
 	} catch (e) {
 		logger.log('failed to parse routing.conf.yaml', { error: e })
 	}

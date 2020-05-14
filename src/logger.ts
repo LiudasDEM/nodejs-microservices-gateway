@@ -28,7 +28,7 @@ export function log(level: string, message: string, { error, req, data, status, 
 		query: JSON.stringify(req.query || {}),
 		body: JSON.stringify(req.body || {}).substring(0, 2048),
 		route: req.method.toLowerCase() + ' ' + ((req.route && req.route.path) || req.path),
-		ip: req.ip,  // TODO trust express proxy
+		ip: req.ip,
 	} : {}
 
 	if (status) {
