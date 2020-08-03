@@ -40,7 +40,7 @@ function applyDefaultConfigurationsForPaths(path: IPath): IPath {
 
 
 async function loadAndParseConfiguration(): Promise<IConfiguration> {
-	const confPath = path.join(process.cwd(), process.cwd().includes('dist') && '..', 'routing.conf.yaml')
+	const confPath = path.join(process.cwd(), process.cwd().includes('dist') ? '..' : '', 'routing.conf.yaml')
 	logger.info(`loading configuration from ${confPath}`)
 
 	const fileExists = await promisify(fs.exists)(confPath)
@@ -54,9 +54,12 @@ async function loadAndParseConfiguration(): Promise<IConfiguration> {
 
 	try {
 		const config = yamljs.parse(file.toString())
-		return config.paths
-			.filter(({ url, origin }: IPath) => url && origin)
-			.map(applyDefaultConfigurationsForPaths)
+		return {
+			paths: config.paths
+				.filter(({ url, origin }: IPath) => url && origin)
+				.map(applyDefaultConfigurationsForPaths),
+			options: config.options,
+		}
 	} catch (e) {
 		logger.log('failed to parse routing.conf.yaml', { error: e })
 	}

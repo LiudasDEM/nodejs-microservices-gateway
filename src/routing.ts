@@ -59,7 +59,7 @@ router.use(wrap(async function routeToService(req, res) {
 	}
 
 	const options = {
-		url: `${endpoint.origin}${endpoint.url}`,
+		url: `${endpoint.origin}${req.url}`,
 	}
 
 	const headersToRemove = endpoint.options.headers.filter(({ remove }) => remove)
